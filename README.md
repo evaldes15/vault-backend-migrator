@@ -8,9 +8,8 @@ Right now this tool really only supports the `secret`/`kv` backend (version 1 in
 
 ##### Setup
 
-You'll want to `go get -f -u github.com/adamdecaf/vault-backend-migrator` this project. It will pull down the vault source code to your GOPATH too.
+Execute `go build -o vault-backend-migrator` to this project. 
 
-There's also a [docker image](https://hub.docker.com/r/adamdecaf/vault-backend-migrator): `docker pull adamdecaf/vault-backend-migrator`
 
 ##### Exporting
 
@@ -18,7 +17,6 @@ After pulling the code it's helpful to set a few environment variables. (These m
 
 ```
 export VAULT_ADDR=http://127.0.0.1:8200/
-export VAULT_CAPATH=<full filepath to .crt bundle>
 export VAULT_TOKEN=<vault token>
 ```
 
@@ -52,16 +50,15 @@ Note: It's recommended that you now delete `secrets.json` if you don't need it. 
 - OSX: `brew install srm`
 - Ubuntu: `apt-get install secure-delete`
 
-### Configuration
+### Examples
 
-This tool reads all the `VAULT_*` environment variables as the vault cli does. You likely need to specify those for the address, CA certs, etc.
+##### Export
 
-## Dependencies
+```
+./vault-backend-migrator -export secret-path/ -file secrets-business-flow-relation.json
+```
+##### Import
 
-This project uses [Go Modules](https://github.com/golang/go/wiki/Modules) and thus requires Go 1.11+.
-
-## Releases
-
-There are various makefile commands for building parts of the release `make release` builds and pushes everything.
-
-You can run `make docker` to build a tagged docker image.
+```
+./vault-backend-migrator -import secret-path/ --file secrets-consumers-import.json
+```

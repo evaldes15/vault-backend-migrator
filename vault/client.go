@@ -1,7 +1,7 @@
 package vault
 
 import (
-	"encoding/base64"
+	//"encoding/base64"
 	"fmt"
 	"os"
 
@@ -79,12 +79,14 @@ func (v *Vault) Read(path string) map[string]interface{} {
 	for k, v := range s.Data {
 		switch t := v.(type) {
 		case string:
-			out[k] = base64.StdEncoding.EncodeToString([]byte(t))
+			//out[k] = base64.StdEncoding.EncodeToString([]byte(t))
+			out[k] = t
 		case map[string]interface{}:
 			if k == "data" {
 				for x, y := range t {
 					if z, ok := y.(string); ok {
-						out[x] = base64.StdEncoding.EncodeToString([]byte(z))
+						out[x] = z
+						//out[x] = base64.StdEncoding.EncodeToString([]byte(z))
 					}
 				}
 			}
@@ -102,11 +104,12 @@ func (v *Vault) Write(path string, data map[string]string, ver string) error {
 
 	// Decode the base64 values
 	for k, v := range data {
+		/*
 		b, err := base64.StdEncoding.DecodeString(v)
 		if err != nil {
 			return err
-		}
-		body[k] = string(b)
+		}*/
+		body[k] = v
 	}
 
 	var err error
